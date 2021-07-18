@@ -7,11 +7,14 @@
 	<link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
 	<script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
 
-    <script src="index.js">
-    </script>
+    <script src="csvutils.js"></script>
+    <script src="index.js"></script>
 </head>
 
 <body onload="init_program();">
+	<div id="container">    
+        <input type="file" id="fc" onchange='readCsvFile(this)' />
+	</div>
     <div id="map" style="width: 100vw; height: 100vh;"></div>
 </body>
 </html>

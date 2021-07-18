@@ -1,10 +1,11 @@
-/* based on the OSM & OL example code provided by https://mediarealm.com.au/ */
+// based on the OSM & OL example code provided by https://mediarealm.com.au/
+
 var map;
 var mapLat = -33.829357;
 var mapLng = 150.961761;
 var mapDefaultZoom = 20;
 
-/* the main method of the program */
+// the main method of the program
 function init_program() {
     get_location_from_address("detmolder straße", "1", "bielefeld");
     get_location_from_address("detmolder straße", "2", "bielefeld");
