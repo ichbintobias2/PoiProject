@@ -33,5 +33,16 @@ function processData(csv) {
         }
         lines.push(tarr);
     }
-    console.log(lines);
+
+    var street;
+    var nr;
+    var city;
+    lines.forEach(function(lines2) {
+        street = lines2[0];
+        nr = lines2[1];
+        city = lines2[2];
+
+        console.log(street, nr, city);
+        get_location_from_address(street, nr, city);
+    })
 }
