@@ -3,18 +3,14 @@
 var map;
 var mapLat = -33.829357;
 var mapLng = 150.961761;
-var mapDefaultZoom = 20;
+var mapDefaultZoom = 5;
 
 // the main method of the program
 function init_program() {
-    initialize_map(-33.8688, 151.2093);
+    initialize_map(51.0834196, 10.4234469);
 }
 
-function get_location_from_address(street, nr, city) {
-    var data = doRequest(street, nr, city);
-}
-
-function doRequest(street, nr, city) {
+function setDotToAddress(street, nr, city, color) {
     const url = "http://nominatim.openstreetmap.org/search?q="+ nr +"+"+ street +"+"+ city +"&format=json&polygon=1&addressdetails=1";
     const Http = new XMLHttpRequest();
 
@@ -40,12 +36,12 @@ function doRequest(street, nr, city) {
             }
 
             if (hasBuilding) {
-                add_map_point(obj.lat, obj.lon);
+                add_map_point(obj.lat, obj.lon, color);
             } else {
                 for (var i = 0; i < parsedData.length; i++) {
                     obj = parsedData[i];
                     if (obj.class == "highway" && obj.address.city && obj.address.city === city) {
-                        add_map_point(obj.lat, obj.lon);
+                        add_map_point(obj.lat, obj.lon, color);
                     }
                 }
             }
@@ -70,7 +66,7 @@ function initialize_map(mapLat, mapLng) {
   });
 }
 
-function add_map_point(lat, lng) {
+function add_map_point(lat, lng, color) {
     var vectorLayer = new ol.layer.Vector({
         source:new ol.source.Vector({
             features: [new ol.Feature({
@@ -83,7 +79,8 @@ function add_map_point(lat, lng) {
                 anchor: [0.5, 0.5],
                 anchorXUnits: "fraction",
                 anchorYUnits: "fraction",
-                src: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg"
+                src: "dots/"+ color +".png", // https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg
+                scale: 0.03,
             })
         })
     });

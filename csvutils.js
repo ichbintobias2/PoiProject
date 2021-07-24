@@ -35,6 +35,6 @@ function processData(csv) {
     }
     
     lines.forEach(function(lines2) {
-        get_location_from_address(lines2[0], lines2[1], lines2[2]);
+        setDotToAddress(lines2[0], lines2[1], lines2[2], lines2[3]);
     })
 }
