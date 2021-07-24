@@ -7,10 +7,6 @@ var mapDefaultZoom = 20;
 
 // the main method of the program
 function init_program() {
-    get_location_from_address("detmolder straße", "1", "bielefeld");
-    get_location_from_address("detmolder straße", "2", "bielefeld");
-    get_location_from_address("detmolder straße", "3", "bielefeld");
-
     initialize_map(-33.8688, 151.2093);
 }
 
@@ -28,11 +24,31 @@ function doRequest(street, nr, city) {
     Http.onreadystatechange = (e) => {
         // only do something if the response is not empty
         if (Http.responseText) {
-            console.log(Http.responseText);
+            console.log("Nominatim API response: "+ Http.responseText);
             var parsedData = JSON.parse(Http.responseText);
             const lat = parsedData[0].lat;
             const lng = parsedData[0].lon;
-            add_map_point(lat, lng);
+
+            var obj;
+            var hasBuilding = false;
+            for (var i = 0; i < parsedData.length; i++) {
+                obj = parsedData[i];
+                if (obj.class == "building" || obj.class == "amenity") {
+                    hasBuilding = true;
+                    break;
+                }
+            }
+
+            if (hasBuilding) {
+                add_map_point(obj.lat, obj.lon);
+            } else {
+                for (var i = 0; i < parsedData.length; i++) {
+                    obj = parsedData[i];
+                    if (obj.class == "highway" && obj.address.city && obj.address.city === city) {
+                        add_map_point(obj.lat, obj.lon);
+                    }
+                }
+            }
         }
     }
 }
