@@ -33,7 +33,7 @@ function processData(csv) {
         }
         lines.push(tarr);
     }
-    
+
     lines.forEach(function(lines2) {
         setDotToAddress(lines2[0], lines2[1], lines2[2], lines2[3]);
     })

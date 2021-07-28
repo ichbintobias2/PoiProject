@@ -22,14 +22,12 @@ function setDotToAddress(street, nr, city, color) {
         if (Http.responseText) {
             console.log("Nominatim API response: "+ Http.responseText);
             var parsedData = JSON.parse(Http.responseText);
-            const lat = parsedData[0].lat;
-            const lng = parsedData[0].lon;
 
             var obj;
             var hasBuilding = false;
             for (var i = 0; i < parsedData.length; i++) {
                 obj = parsedData[i];
-                if (obj.class == "building" || obj.class == "amenity") {
+                if ((obj.class == "building" || obj.class == "amenity") && (obj.address.city === city || obj.address.town === city || obj.address.village === city)) {
                     hasBuilding = true;
                     break;
                 }
@@ -40,7 +38,7 @@ function setDotToAddress(street, nr, city, color) {
             } else {
                 for (var i = 0; i < parsedData.length; i++) {
                     obj = parsedData[i];
-                    if (obj.class == "highway" && obj.address.city && obj.address.city === city) {
+                    if (obj.class == "highway" && obj.address.city && (obj.address.city === city || obj.address.town === city)) {
                         add_map_point(obj.lat, obj.lon, color);
                     }
                 }
